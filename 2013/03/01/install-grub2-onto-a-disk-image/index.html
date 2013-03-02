@@ -6,11 +6,11 @@
   <title>Install GRUB2 onto a Disk Image | pages</title>
   <meta name="author" content="cz0u">
   
-  <meta name="description" content="loop mount the partitioned disk image:
- # losetup --show --find disk.img /dev/loop0
-
-get major and minor numbers of the loop device.
- # ls -l /dev/loo">
+  <meta name="description" content="来源: http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/ 
+system: fedora 18
+grub: GRUB 2.0
+0. prepare disk image:
+">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -62,24 +62,25 @@ get major and minor numbers of the loop device.
     </header>
     <div class="entry">
       
-        <ol>
+        <p>来源: <a href="http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/">http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/</a> </p>
+<p>system: fedora 18
+grub: GRUB 2.0
+0. prepare disk image:</p>
+<pre><code><div class="line">    # touch disk.img &amp;&amp; <span class="operator"><span class="keyword">truncate</span> --<span class="keyword">size</span> <span class="number">512</span>M disk.img</div></code></pre>
+<ol>
 <li><p>loop mount the partitioned disk image:</p>
 <pre><code><div class="line"> <span class="comment">#</span> <span class="comment">losetup</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">show</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">find</span> <span class="comment">disk</span>.<span class="comment">img</span></div><div class="line"> <span class="comment">/dev/loop0</div></code></pre>
 </li>
-<li><p>get major and minor numbers of the loop device.</p>
-<pre><code><div class="line"> <span class="comment"># ls -l /dev/loop0</span></div></code></pre>
+<li><pre><code><div class="line"> <span class="comment"># partx /dev/loop0</span></div><div class="line"> <span class="comment"># ls /dev/loop0*</span></div><div class="line"> <span class="regexp">/dev/loop0 /dev/</span>loop0p1</div></code></pre>
 </li>
-<li><p>create a device-mapper node.</p>
-<pre><code><div class="line"> <span class="comment"># echo '0 SIZE linear 7:0 0' |dmsetup</span></div></code></pre>
+<li><p>mount the loop device  </p>
+<pre><code><div class="line"> <span class="comment"># mount /dev/loop0p1 /tmp/disk</span></div></code></pre>
 </li>
-<li><pre><code><div class="line"> <span class="comment"># kpartx -a /dev/mapper/hda</span></div></code></pre>
-</li>
-<li><pre><code><div class="line"> <span class="comment"># mount /dev/mapper/hda1 /tmp/disk</span></div></code></pre>
-</li>
-<li><pre><code><div class="line"> <span class="comment">#</span> <span class="comment">grub</span>-<span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">boot</span>-<span class="comment">directory=/tmp/disk/</span> <span class="comment">/dev/mapper/hda</div></code></pre>
+<li><p>install grub2</p>
+<pre><code><div class="line"> <span class="comment">#</span> <span class="comment">grub2</span>-<span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">boot</span>-<span class="comment">directory=/tmp/disk/boot/</span> <span class="comment">/dev/mapper/hda</div></code></pre>
 </li>
 <li><p>Cleanup</p>
-<pre><code><div class="line"> <span class="comment"># umount /tmp/disk</span></div><div class="line"> <span class="comment"># rm -rf /tmp/disk</span></div><div class="line"> <span class="comment"># kpartx -d /dev/mapper/hda</span></div><div class="line"> <span class="comment"># dmsetup remove hda</span></div><div class="line"> <span class="comment"># losetup -d /dev/loop0</span></div></code></pre>
+<pre><code><div class="line"> <span class="comment"># umount /tmp/disk</span></div><div class="line"> <span class="comment"># rm -rf /tmp/disk</span></div><div class="line"> <span class="comment"># partx -d /dev/loop0</span></div><div class="line"> <span class="comment"># losetup -d /dev/loop0</span></div></code></pre>
 </li>
 </ol>
 
