@@ -61,26 +61,27 @@
     </header>
     <div class="entry">
       
-        <p>来源: <a href="http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/">http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/</a> </p>
-<p>system: fedora 18
-grub: GRUB 2.0
-0. prepare disk image:</p>
-<pre><code><div class="line">    # touch disk.img &amp;&amp; <span class="operator"><span class="keyword">truncate</span> --<span class="keyword">size</span> <span class="number">512</span>M disk.img</div></code></pre>
+        <p>来源: </p>
+<p><a href="http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/">http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/</a> </p>
+<p><a href="http://ebroder.net/2009/08/04/installing-grub-onto-a-disk-image/">http://ebroder.net/2009/08/04/installing-grub-onto-a-disk-image/</a></p>
+<p>system: fedora 18</p>
+<p>grub: GRUB 2.0</p>
+<p>prepare a disk image disk.img</p>
 <ol>
 <li><p>loop mount the partitioned disk image:</p>
-<pre><code><div class="line"> <span class="comment">#</span> <span class="comment">losetup</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">show</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">find</span> <span class="comment">disk</span>.<span class="comment">img</span></div><div class="line"> <span class="comment">/dev/loop0</div></code></pre>
+<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="comment">#</span> <span class="comment">losetup</span> <span class="literal">-</span><span class="comment">f</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">show</span> <span class="comment">disk</span>.<span class="comment">img</span></div><div class="line"><span class="comment">/dev/loop0</div></code></pre></td></tr></table></figure>
 </li>
-<li><pre><code><div class="line"> <span class="comment"># partx /dev/loop0</span></div><div class="line"> <span class="comment"># ls /dev/loop0*</span></div><div class="line"> <span class="regexp">/dev/loop0 /dev/</span>loop0p1</div></code></pre>
+<li><p>xxxxxxx</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># partx /dev/loop0</span></div><div class="line"><span class="preprocessor"># ls /dev/loop0*</span></div><div class="line">/dev/loop0 /dev/loop0p1</div></code></pre></td></tr></table></figure>
 </li>
 <li><p>mount the loop device  </p>
-<pre><code><div class="line"> <span class="comment"># mount /dev/loop0p1 /tmp/disk</span></div></code></pre>
+<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># mount /dev/loop0p1 /tmp/disk</span></div></code></pre></td></tr></table></figure>
 </li>
-<li><p>install grub2</p>
-<pre><code><div class="line"> <span class="comment">#</span> <span class="comment">grub2</span>-<span class="comment">install</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">boot</span>-<span class="comment">directory=/tmp/disk/boot/</span> <span class="comment">/dev/mapper/hda</div></code></pre>
+<li><p>install grub2 </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># mkdir -p /tmp/disk/boot/grub2</span></div><div class="line"><span class="preprocessor"># grub2-install --boot-directory /tmp/disk/boot/ /dev/loop0</span></div></code></pre></td></tr></table></figure>
 </li>
-<li><p>Cleanup</p>
-<pre><code><div class="line"> <span class="comment"># umount /tmp/disk</span></div><div class="line"> <span class="comment"># rm -rf /tmp/disk</span></div><div class="line"> <span class="comment"># partx -d /dev/loop0</span></div><div class="line"> <span class="comment"># losetup -d /dev/loop0</span></div></code></pre>
-</li>
+<li><p>cleanup</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># umount /tmp/disk</span></div><div class="line"><span class="preprocessor"># rm -rf /tmp/disk</span></div><div class="line"><span class="preprocessor"># partx -d /dev/loop0</span></div><div class="line"><span class="preprocessor"># losetup -d /dev/loop0</span></div></code></pre></td></tr></table></figure></li>
 </ol>
 
       
