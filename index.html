@@ -39,8 +39,6 @@
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-
-
   <article class="post">
   
   <div class="post-content">
@@ -58,26 +56,59 @@
     <div class="entry">
       
         <p>来源: </p>
-<p><a href="http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/">http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/</a> </p>
-<p><a href="http://ebroder.net/2009/08/04/installing-grub-onto-a-disk-image/">http://ebroder.net/2009/08/04/installing-grub-onto-a-disk-image/</a></p>
+<p><a href="http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/" target="_blank">http://tomermargalit.wordpress.com/tag/create-grub2-bootable-image-over-loopback-device/</a> </p>
+<p><a href="http://ebroder.net/2009/08/04/installing-grub-onto-a-disk-image/" target="_blank">http://ebroder.net/2009/08/04/installing-grub-onto-a-disk-image/</a></p>
 <p>system: fedora 18</p>
 <p>grub: GRUB 2.0</p>
 <p>prepare a disk image disk.img</p>
 <ol>
-<li><p>loop mount the partitioned disk image:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="comment">#</span> <span class="comment">losetup</span> <span class="literal">-</span><span class="comment">f</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">show</span> <span class="comment">disk</span>.<span class="comment">img</span></div><div class="line"><span class="comment">/dev/loop0</div></code></pre></td></tr></table></figure>
+<li>loop mount the partitioned disk image:<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="comment">#</span> <span class="comment">losetup</span> <span class="literal">-</span><span class="comment">f</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">show</span> <span class="comment">disk</span>.<span class="comment">img</span>
+<span class="comment">/dev/loop0
+</pre></td></tr></table></figure>
+
 </li>
-<li><p>xxxxxxx</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># partx /dev/loop0</span></div><div class="line"><span class="preprocessor"># ls /dev/loop0*</span></div><div class="line">/dev/loop0 /dev/loop0p1</div></code></pre></td></tr></table></figure>
+</ol>
+<p>2.</p>
+<figure class="highlight lang-shell"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="preprocessor"># partx /dev/loop0</span>
+<span class="preprocessor"># ls /dev/loop0*</span>
+/dev/loop0 /dev/loop0p1
+</pre></td></tr></table></figure>
+
+
+<ol>
+<li>mount the loop device  <figure class="highlight lang-shell"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="preprocessor"># mount /dev/loop0p1 /tmp/disk</span>
+</pre></td></tr></table></figure>
+
+
 </li>
-<li><p>mount the loop device  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># mount /dev/loop0p1 /tmp/disk</span></div></code></pre></td></tr></table></figure>
+</ol>
+<ol>
+<li>install grub2 <figure class="highlight lang-shell"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># mkdir -p /tmp/disk/boot/grub2</span>
+<span class="preprocessor"># grub2-install --boot-directory /tmp/disk/boot/ /dev/loop0</span>
+</pre></td></tr></table></figure>
+
+
 </li>
-<li><p>install grub2 </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># mkdir -p /tmp/disk/boot/grub2</span></div><div class="line"><span class="preprocessor"># grub2-install --boot-directory /tmp/disk/boot/ /dev/loop0</span></div></code></pre></td></tr></table></figure>
+</ol>
+<ol>
+<li>cleanup<figure class="highlight lang-shell"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="preprocessor"># umount /tmp/disk</span>
+<span class="preprocessor"># rm -rf /tmp/disk</span>
+<span class="preprocessor"># partx -d /dev/loop0</span>
+<span class="preprocessor"># losetup -d /dev/loop0</span>
+</pre></td></tr></table></figure>
 </li>
-<li><p>cleanup</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># umount /tmp/disk</span></div><div class="line"><span class="preprocessor"># rm -rf /tmp/disk</span></div><div class="line"><span class="preprocessor"># partx -d /dev/loop0</span></div><div class="line"><span class="preprocessor"># losetup -d /dev/loop0</span></div></code></pre></td></tr></table></figure></li>
 </ol>
 
       
@@ -113,7 +144,14 @@
         <h2>Test</h2>
 <h2>element of OS</h2>
 <h3>bootloader</h3>
-<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="preprocessor"># touch disk.img &amp;&amp; truncate --size 64M disk.img</span></div><div class="line"><span class="preprocessor"># losetup -f disk.img</span></div><div class="line">/dev/loop0</div></code></pre></td></tr></table></figure>
+<figure class="highlight lang-shell"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="preprocessor"># touch disk.img &amp;&amp; truncate --size 64M disk.img</span>
+<span class="preprocessor"># losetup -f disk.img</span>
+/dev/loop0
+</pre></td></tr></table></figure>
+
       
     </div>
     <footer>
@@ -144,7 +182,7 @@
     </header>
     <div class="entry">
       
-        <p>Welcome to <a href="http://zespia.tw/hexo">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs">documentation</a> to learn how to use.</p>
+        <p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
 
       
     </div>
